@@ -37,8 +37,6 @@ http.createServer(app).listen(app.get('port'), function(){
 
 app.get('/expenses', function(req, res, next) {
 	var results = {};
-	results.Comidas = [];
-	var data = [];
 		var query = client.query('SELECT * FROM EXPENSES', 
 				function(err, result) {
 	        if(err) {return console.error(err);}
@@ -49,24 +47,20 @@ app.get('/expenses', function(req, res, next) {
 
 app.get('/profiles', function(req, res, next) {
 	var results = {};
-	results.Comidas = [];
-	var data = [];
 		var query = client.query('SELECT * FROM PROFILE', 
 				function(err, result) {
 	        if(err) {return console.error(err);}
-	         results.Expenses = result.rows;
+	         results.Profiles = result.rows;
 	         return res.json(results);
 	    });
 });
 
 app.get('/expenses_profile', function(req, res, next) {
 	var results = {};
-	results.Comidas = [];
-	var data = [];
 		var query = client.query('SELECT * FROM EXPENSES_PROFILE', 
 				function(err, result) {
 	        if(err) {return console.error(err);}
-	         results.Expenses = result.rows;
+	         results.ExpensesProfiles = result.rows;
 	         return res.json(results);
 	    });
 });
