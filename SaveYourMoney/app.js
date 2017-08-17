@@ -11,6 +11,12 @@ var express = require('express')
 
 var app = express();
 
+var pg  = require('pg');
+//var conString   = process.env.DATABASE_URL;
+var conString = 'postgres://martin:123@localhost:5432/SaveYourMoney';
+var client = new pg.Client(conString);
+client.connect();
+
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
