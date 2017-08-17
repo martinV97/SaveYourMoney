@@ -1,8 +1,3 @@
-
-/**
- * Module dependencies.
- */
-
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
@@ -12,8 +7,8 @@ var express = require('express')
 var app = express();
 
 var pg  = require('pg');
-//var conString   = process.env.DATABASE_URL;
-var conString = 'postgres://martin:123@localhost:5432/SaveYourMoney';
+var conString   = process.env.DATABASE_URL;
+//var conString = 'postgres://martin:123@localhost:5432/SaveYourMoney';
 var client = new pg.Client(conString);
 client.connect();
 
@@ -42,39 +37,36 @@ http.createServer(app).listen(app.get('port'), function(){
 
 app.get('/expenses', function(req, res, next) {
 	var results = {};
-	results.Expenses = [];
+	results.Comidas = [];
 	var data = [];
-		var query = client.query('SELECT * FROM public.expenses');
-	    query.on('row', function (row){
-	      results.Expenses.push(row);
-	    });
-	    query.on('end', function (){
-	      return res.json(results);
+		var query = client.query('SELECT * FROM EXPENSES', 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.Expenses = result.rows;
+	         return res.json(results);
 	    });
 });
 
-app.get('/profile', function(req, res, next) {
+app.get('/profiles', function(req, res, next) {
 	var results = {};
-	results.Profiles = [];
+	results.Comidas = [];
 	var data = [];
-		var query = client.query('SELECT * FROM PROFILE');
-	    query.on('row', function (row){
-	      results.Profiles.push(row);
-	    });
-	    query.on('end', function (){
-	      return res.json(results);
+		var query = client.query('SELECT * FROM PROFILE', 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.Expenses = result.rows;
+	         return res.json(results);
 	    });
 });
 
-app.get('/expensesProfile', function(req, res, next) {
+app.get('/expenses_profile', function(req, res, next) {
 	var results = {};
-	results.ExpensesProfile = [];
+	results.Comidas = [];
 	var data = [];
-		var query = client.query('SELECT * FROM EXPENSES_PROFILE');
-	    query.on('row', function (row){
-	      results.ExpensesProfile.push(row);
-	    });
-	    query.on('end', function (){
-	      return res.json(results);
+		var query = client.query('SELECT * FROM EXPENSES_PROFILE', 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.Expenses = result.rows;
+	         return res.json(results);
 	    });
 });
