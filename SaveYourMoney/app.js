@@ -44,6 +44,8 @@ app.get('/expenses', function(req, res, next) {
 	         return res.json(results);
 	    });
 });
+//-----------------------------------------------------------------------------------------
+
 
 app.get('/profiles', function(req, res, next) {
 	var results = {};
@@ -55,6 +57,16 @@ app.get('/profiles', function(req, res, next) {
 	    });
 });
 
+app.get('/getIdprofile', function(req, res, next) {
+	var results = {};
+		var query = client.query('SELECT last_value FROM id_profile_sequence', 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.IdProfile = result.rows;
+	         return res.json(results);
+	    });
+});
+//-----------------------------------------------------------------------------------------
 app.get('/expenses_profile', function(req, res, next) {
 	var results = {};
 		var query = client.query('SELECT * FROM EXPENSES_PROFILE', 
