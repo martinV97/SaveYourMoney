@@ -62,6 +62,17 @@ app.get('/createProfile', function(req, res, next) {
     });
 });
 
+app.get('/searchProfile', function(req, res, next) {
+	var id = req.param('id');
+	var results = {};
+		var query = client.query('SELECT * FROM PROFILES WHERE ID = ' + id, 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.Profiles = result.rows;
+	         return res.json(results);
+	    });
+});
+
 app.get('/cleanProfiles', function(req, res, next) {
 	var results = {};
 	var success = 'sucess';
