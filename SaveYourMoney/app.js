@@ -102,7 +102,7 @@ app.get('/budgets', function(req, res, next) {
 		var query = client.query('SELECT * FROM BUDGETS', 
 				function(err, result) {
 	        if(err) {return console.error(err);}
-	         results.Expenses = result.rows;
+	         results.Budgets = result.rows;
 	         return res.json(results);
 	    });
 });
@@ -118,7 +118,7 @@ app.get('/createBudget', function(req, res, next) {
 	var query = client.query('SELECT last_value FROM id_budget_sequence', 
 			function(err, result) {
         if(err) {return console.error(err);}
-         results.IdProfile = result.rows;
+         results.IdBudget = result.rows;
          return res.json(results);
     });
 	
