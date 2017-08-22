@@ -64,7 +64,13 @@ app.get('/createProfile', function(req, res, next) {
 
 app.get('/cleanProfiles', function(req, res, next) {
 	var results = {};
-		var query = client.query('DELETE FROM public.profiles WHERE ID > 0');
+	var success = 'sucess';
+		var query = client.query('DELETE FROM PROFILES WHERE ID > 0', 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.Expenses = success;
+	         return res.json(results);
+	    });
 });
 //-----------------------------------------------------------------------------------------
 
