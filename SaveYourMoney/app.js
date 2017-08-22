@@ -54,18 +54,18 @@ app.get('/createProfile', function(req, res, next) {
 				'INSERT INTO public.profiles (name, carrer) VALUES (' 
 				+ name + ',' + carrer + ')');
 	var results = {};
+	var query = client.query('SELECT last_value FROM id_profile_sequence', 
+			function(err, result) {
+        if(err) {return console.error(err);}
+         results.IdProfile = result.rows;
+         return res.json(results);
+    });
 });
 
-app.get('/createProfile1', function(req, res, next) {
+app.get('/cleanProfiles', function(req, res, next) {
 	var results = {};
-		var query = client.query('SELECT last_value FROM id_profile_sequence', 
-				function(err, result) {
-	        if(err) {return console.error(err);}
-	         results.IdProfile = result.rows;
-	         return res.json(results);
-	    });
+		var query = client.query('DELETE FROM public.profiles WHERE ID > 0');
 });
-
 //-----------------------------------------------------------------------------------------
 
 app.get('/budgets', function(req, res, next) {
