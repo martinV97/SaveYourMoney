@@ -50,10 +50,10 @@ app.get('/profiles', function(req, res, next) {
 app.get('/createProfile', function(req, res, next) {
 	var name = req.param('name');
 	var carrer = req.param('carrer');
-	var results = {};
-		var query = client.query(
+	var queryInsert = client.query(
 				'INSERT INTO public.profiles (name, carrer) VALUES (' 
 				+ name + ',' + carrer + ')');
+	var results = {};
 });
 
 app.get('/createProfile1', function(req, res, next) {
