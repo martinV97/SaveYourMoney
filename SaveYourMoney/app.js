@@ -84,17 +84,6 @@ app.get('/cleanProfiles', function(req, res, next) {
 	    });
 });
 
-app.get('/cleanBudgets', function(req, res, next) {
-	var results = {};
-	var success = 'sucess';
-		var query = client.query('DELETE FROM BUDGETS WHERE ID > 0', 
-				function(err, result) {
-	        if(err) {return console.error(err);}
-	         results.Expenses = success;
-	         return res.json(results);
-	    });
-});
-
 //-----------------------------------------------------------------------------------------
 
 app.get('/budgets', function(req, res, next) {
@@ -112,7 +101,7 @@ app.get('/createBudget', function(req, res, next) {
 	var days = req.param('days');
 	var savings = req.param('savings');
 	var id_profile = req.param('id_profile');
-	var query = client.query('INSERT INTO public.budgets (cash, days, savings, id_profile) VALUES (' + 
+	var queryInsert = client.query('INSERT INTO public.budgets (cash, days, savings, id_profile) VALUES (' + 
 				+ cash + ',' + days + ',' + savings + ','+ id_profile +')');
 	var results = {};
 	var query = client.query('SELECT last_value FROM id_budget_sequence', 
@@ -130,7 +119,29 @@ app.get('/searchBudget', function(req, res, next) {
 		var query = client.query('SELECT * FROM BUDGETS WHERE ID = ' + id, 
 				function(err, result) {
 	        if(err) {return console.error(err);}
-	         results.Profile = result.rows;
+	         results.Budget = result.rows;
+	         return res.json(results);
+	    });
+});
+
+app.get('/searchBudgetsOfProfile', function(req, res, next) {
+	var id_profile = req.param('id_profile');
+	var results = {};
+		var query = client.query('SELECT * FROM BUDGETS WHERE ID_PROFILE = ' + id_profile, 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.Budgets = result.rows;
+	         return res.json(results);
+	    });
+});
+
+app.get('/cleanBudgets', function(req, res, next) {
+	var results = {};
+	var success = 'sucess';
+		var query = client.query('DELETE FROM BUDGETS WHERE ID > 0', 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.Budgets = success;
 	         return res.json(results);
 	    });
 });
@@ -143,6 +154,43 @@ app.get('/expenses', function(req, res, next) {
 				function(err, result) {
 	        if(err) {return console.error(err);}
 	         results.Expenses = result.rows;
+	         return res.json(results);
+	    });
+});
+
+app.get('/createExpense', function(req, res, next) {
+	var name = req.param('name');
+	var type = req.param('type');
+	var queryInsert = client.query('INSERT INTO public.expenses (name, type) VALUES (' + 
+				+ name + ',' + type + ')');
+	var results = {};
+	var query = client.query('SELECT last_value FROM id_expense_sequence', 
+			function(err, result) {
+        if(err) {return console.error(err);}
+         results.IdExpense = result.rows;
+         return res.json(results);
+    });
+	
+});
+
+app.get('/searchExpense', function(req, res, next) {
+	var id = req.param('id');
+	var results = {};
+		var query = client.query('SELECT * FROM EXPENSES WHERE ID = ' + id, 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.Expense = result.rows;
+	         return res.json(results);
+	    });
+});
+
+app.get('/cleanExpenses', function(req, res, next) {
+	var results = {};
+	var success = 'sucess';
+		var query = client.query('DELETE FROM EXPENSES WHERE ID > 0', 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.Expenses = success;
 	         return res.json(results);
 	    });
 });
