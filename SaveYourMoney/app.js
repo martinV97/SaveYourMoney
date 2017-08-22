@@ -35,17 +35,7 @@ http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
-app.get('/expenses', function(req, res, next) {
-	var results = {};
-		var query = client.query('SELECT * FROM EXPENSES', 
-				function(err, result) {
-	        if(err) {return console.error(err);}
-	         results.Expenses = result.rows;
-	         return res.json(results);
-	    });
-});
 //-----------------------------------------------------------------------------------------
-
 
 app.get('/profiles', function(req, res, next) {
 	var results = {};
@@ -57,7 +47,21 @@ app.get('/profiles', function(req, res, next) {
 	    });
 });
 
-app.get('/getIdprofile', function(req, res, next) {
+app.get('/createProfile', function(req, res, next) {
+	var name = req.param('name');
+	var carrer = req.param('carrer');
+	var results = {};
+		var query = client.query(
+				'INSERT INTO public.profiles (name, carrer) VALUES (' 
+				+ name + ',' + carrer + ')',
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.IdProfile = 'success'
+	         return res.json(results);
+	    });
+});
+
+app.get('/createProfile1', function(req, res, next) {
 	var results = {};
 		var query = client.query('SELECT last_value FROM id_profile_sequence', 
 				function(err, result) {
@@ -66,6 +70,31 @@ app.get('/getIdprofile', function(req, res, next) {
 	         return res.json(results);
 	    });
 });
+
+//-----------------------------------------------------------------------------------------
+
+app.get('/budgets', function(req, res, next) {
+	var results = {};
+		var query = client.query('SELECT * FROM EXPENSES', 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.Expenses = result.rows;
+	         return res.json(results);
+	    });
+});
+
+//-----------------------------------------------------------------------------------------
+
+app.get('/expenses', function(req, res, next) {
+	var results = {};
+		var query = client.query('SELECT * FROM EXPENSES', 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.Expenses = result.rows;
+	         return res.json(results);
+	    });
+});
+
 //-----------------------------------------------------------------------------------------
 app.get('/expenses_profile', function(req, res, next) {
 	var results = {};
