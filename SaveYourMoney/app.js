@@ -68,7 +68,7 @@ app.get('/searchProfile', function(req, res, next) {
 		var query = client.query('SELECT * FROM PROFILES WHERE ID = ' + id, 
 				function(err, result) {
 	        if(err) {return console.error(err);}
-	         results.Profiles = result.rows;
+	         results.Profile = result.rows;
 	         return res.json(results);
 	    });
 });
@@ -83,6 +83,18 @@ app.get('/cleanProfiles', function(req, res, next) {
 	         return res.json(results);
 	    });
 });
+
+app.get('/cleanBudgets', function(req, res, next) {
+	var results = {};
+	var success = 'sucess';
+		var query = client.query('DELETE FROM BUDGETS WHERE ID > 0', 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.Expenses = success;
+	         return res.json(results);
+	    });
+});
+
 //-----------------------------------------------------------------------------------------
 
 app.get('/budgets', function(req, res, next) {
@@ -91,6 +103,34 @@ app.get('/budgets', function(req, res, next) {
 				function(err, result) {
 	        if(err) {return console.error(err);}
 	         results.Expenses = result.rows;
+	         return res.json(results);
+	    });
+});
+
+app.get('/createBudget', function(req, res, next) {
+	var cash = req.param('cash');
+	var days = req.param('days');
+	var savings = req.param('savings');
+	var id_profile = req.param('id_profile');
+	var query = client.query('INSERT INTO public.budgets (cash, days, savings, id_profile) VALUES (' + 
+				+ cash + ',' + days + ',' + savings + ','+ id_profile +')');
+	var results = {};
+	var query = client.query('SELECT last_value FROM id_budget_sequence', 
+			function(err, result) {
+        if(err) {return console.error(err);}
+         results.IdProfile = result.rows;
+         return res.json(results);
+    });
+	
+});
+
+app.get('/searchBudget', function(req, res, next) {
+	var id = req.param('id');
+	var results = {};
+		var query = client.query('SELECT * FROM BUDGETS WHERE ID = ' + id, 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.Profile = result.rows;
 	         return res.json(results);
 	    });
 });
