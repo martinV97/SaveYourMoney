@@ -53,12 +53,7 @@ app.get('/createProfile', function(req, res, next) {
 	var results = {};
 		var query = client.query(
 				'INSERT INTO public.profiles (name, carrer) VALUES (' 
-				+ name + ',' + carrer + ')',
-				function(err, result) {
-	        if(err) {return console.error(err);}
-	         results.IdProfile = 'success'
-	         return res.json(results);
-	    });
+				+ name + ',' + carrer + ')');
 });
 
 app.get('/createProfile1', function(req, res, next) {
