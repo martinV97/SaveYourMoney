@@ -39,7 +39,7 @@ http.createServer(app).listen(app.get('port'), function(){
 
 app.get('/profiles', function(req, res, next) {
 	var results = {};
-		var query = client.query('SELECT * FROM PROFILE', 
+		var query = client.query('SELECT * FROM PROFILES', 
 				function(err, result) {
 	        if(err) {return console.error(err);}
 	         results.Profiles = result.rows;
@@ -75,7 +75,7 @@ app.get('/createProfile1', function(req, res, next) {
 
 app.get('/budgets', function(req, res, next) {
 	var results = {};
-		var query = client.query('SELECT * FROM EXPENSES', 
+		var query = client.query('SELECT * FROM BUDGETS', 
 				function(err, result) {
 	        if(err) {return console.error(err);}
 	         results.Expenses = result.rows;
@@ -98,7 +98,7 @@ app.get('/expenses', function(req, res, next) {
 //-----------------------------------------------------------------------------------------
 app.get('/expenses_profile', function(req, res, next) {
 	var results = {};
-		var query = client.query('SELECT * FROM EXPENSES_PROFILE', 
+		var query = client.query('SELECT * FROM EXPENSES_PROFILES', 
 				function(err, result) {
 	        if(err) {return console.error(err);}
 	         results.ExpensesProfiles = result.rows;
