@@ -206,3 +206,14 @@ app.get('/expenses_profile', function(req, res, next) {
 	         return res.json(results);
 	    });
 });
+
+
+app.get('/createExpensesProfile', function(req, res, next) {
+	var results = {};
+		var query = client.query('INSERT INTO public.expenses_profile (id_expense, id_profile) VALUES(', 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.ExpensesProfiles = result.rows;
+	         return res.json(results);
+	    });
+});
