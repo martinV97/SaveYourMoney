@@ -47,6 +47,7 @@ app.get('/profiles', function(req, res, next) {
 	    });
 });
 
+
 app.get('/createProfile', function(req, res, next) {
 	var name = req.param('name');
 	var carrer = req.param('carrer');
