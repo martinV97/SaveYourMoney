@@ -50,10 +50,10 @@ app.get('/profiles', function(req, res, next) {
 
 app.get('/createProfile', function(req, res, next) {
 	var name = req.param('name');
-	var carrer = req.param('carrer');
+	var career = req.param('career');
 	var queryInsert = client.query(
-				'INSERT INTO public.profiles (name, carrer) VALUES (' 
-				+ name + ',' + carrer + ')');
+				'INSERT INTO public.profiles (name, career) VALUES (' +
+				 name + ',' + career + ')');
 	var results = {};
 	var query = client.query('SELECT last_value FROM id_profile_sequence', 
 			function(err, result) {
@@ -101,9 +101,10 @@ app.get('/createBudget', function(req, res, next) {
 	var cash = req.param('cash');
 	var days = req.param('days');
 	var savings = req.param('savings');
+	var activated = req.param('activated'); 
 	var id_profile = req.param('id_profile');
-	var queryInsert = client.query('INSERT INTO public.budgets (cash, days, savings, id_profile) VALUES (' + 
-				+ cash + ',' + days + ',' + savings + ','+ id_profile +')');
+	var queryInsert = client.query('INSERT INTO public.budgets (cash, days, savings, activated, id_profile) VALUES (' + 
+				 cash + ',' + days + ',' + savings + ','+ activated + ',' + id_profile +')');
 	var results = {};
 	var query = client.query('SELECT last_value FROM id_budget_sequence', 
 			function(err, result) {
@@ -125,10 +126,23 @@ app.get('/searchBudget', function(req, res, next) {
 	    });
 });
 
+app.get('/updateStateBudget', function(req, res, next) {
+	var id_profile = req.param('id_profile');
+	var results = {};
+		var query = client.query('UPDATE public.budgets  SET activated = false ' +
+				'WHERE ID_PROFILE = ' + id_profile, 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.Budget = result.rows;
+	         return res.json(results);
+	    });
+});
+
+
 app.get('/searchBudgetsOfProfile', function(req, res, next) {
 	var id_profile = req.param('id_profile');
 	var results = {};
-		var query = client.query('SELECT * FROM BUDGETS WHERE ID_PROFILE = ' + id_profile, 
+		var query = client.query('SELECT * FROM BUDGETS WHERE ID_PROFILE = ' + id_profile + 'AND ACTIVATED = TRUE', 
 				function(err, result) {
 	        if(err) {return console.error(err);}
 	         results.Budgets = result.rows;
@@ -163,7 +177,7 @@ app.get('/createExpense', function(req, res, next) {
 	var name = req.param('name');
 	var type = req.param('type');
 	var queryInsert = client.query('INSERT INTO public.expenses (name, type) VALUES (' + 
-				+ name + ',' + type + ')');
+				name + ',' + type + ')');
 	var results = {};
 	var query = client.query('SELECT last_value FROM id_expense_sequence', 
 			function(err, result) {
@@ -209,11 +223,16 @@ app.get('/expenses_profile', function(req, res, next) {
 
 
 app.get('/createExpensesProfile', function(req, res, next) {
+	var id_expense = req.param('id_expense');
+	var id_profile = req.param('id_profile');
+	var cost = req.param('cost');
+	var success = 'sucess';
 	var results = {};
-		var query = client.query('INSERT INTO public.expenses_profile (id_expense, id_profile) VALUES(', 
+		var query = client.query('INSERT INTO public.expenses_profile (id_expense, id_profile) VALUES('+
+				id_expense + ',' + id_profile + ',' + cost + ')', 
 				function(err, result) {
 	        if(err) {return console.error(err);}
-	         results.ExpensesProfiles = result.rows;
+	         results.ExpensesProfiles = success;
 	         return res.json(results);
 	    });
 });
