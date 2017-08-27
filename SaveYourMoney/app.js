@@ -115,29 +115,42 @@ app.get('/createBudget', function(req, res, next) {
 	
 });
 
+app.get('/updateSavingsBudget', function(req, res, next) {
+	var id = req.param('id');
+	var savings = req.param('savings'); 
+	var results = {};
+	var query = client.query('UPDATE public.budgets  SET savings = ' +
+			savings + 'WHERE ID = ' + id,  
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.Budget = result.rows;
+	         return res.json(results);
+	    });
+});
+
+
+app.get('/updateStateBudget', function(req, res, next) {
+	var id = req.param('id');
+	var results = {};
+	var query = client.query('UPDATE public.budgets  SET activated = false ' +
+				'WHERE ID = ' + id, 
+				function(err, result) {
+	        if(err) {return console.error(err);}
+	         results.Budget = result.rows;
+	         return res.json(results);
+	    });
+});
+
 app.get('/searchBudget', function(req, res, next) {
 	var id = req.param('id');
 	var results = {};
-		var query = client.query('SELECT * FROM BUDGETS WHERE ID = ' + id, 
-				function(err, result) {
-	        if(err) {return console.error(err);}
-	         results.Budget = result.rows;
-	         return res.json(results);
-	    });
+	var query = client.query('SELECT * FROM BUDGETS WHERE ID = ' + id, 
+			function(err, result) {
+		if(err) {return console.error(err);}
+		results.Budget = result.rows;
+		return res.json(results);
+	});
 });
-
-app.get('/updateStateBudget', function(req, res, next) {
-	var id_profile = req.param('id_profile');
-	var results = {};
-		var query = client.query('UPDATE public.budgets  SET activated = false ' +
-				'WHERE ID_PROFILE = ' + id_profile, 
-				function(err, result) {
-	        if(err) {return console.error(err);}
-	         results.Budget = result.rows;
-	         return res.json(results);
-	    });
-});
-
 
 app.get('/searchBudgetsOfProfile', function(req, res, next) {
 	var id_profile = req.param('id_profile');
