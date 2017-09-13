@@ -190,7 +190,7 @@ app.get('/createExpense', function(req, res, next) {
 	var name = req.param('name');
 	var type = req.param('type');
 	var id_budget = req.param('id_budget');
-	var queryInsert = client.query('INSERT INTO public.expenses (name, type) VALUES (' + 
+	var queryInsert = client.query('INSERT INTO public.expenses (name, type, id_budget) VALUES (' + 
 				name + ',' + type + ',' + id_budget +')');
 	var results = {};
 	var query = client.query('SELECT last_value FROM id_expense_sequence', 
