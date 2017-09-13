@@ -189,8 +189,9 @@ app.get('/expenses', function(req, res, next) {
 app.get('/createExpense', function(req, res, next) {
 	var name = req.param('name');
 	var type = req.param('type');
+	var id_budget = req.param('id_budget');
 	var queryInsert = client.query('INSERT INTO public.expenses (name, type) VALUES (' + 
-				name + ',' + type + ')');
+				name + ',' + type + ',' + id_budget +')');
 	var results = {};
 	var query = client.query('SELECT last_value FROM id_expense_sequence', 
 			function(err, result) {
@@ -219,33 +220,6 @@ app.get('/cleanExpenses', function(req, res, next) {
 				function(err, result) {
 	        if(err) {return console.error(err);}
 	         results.Expenses = success;
-	         return res.json(results);
-	    });
-});
-
-//-----------------------------------------------------------------------------------------
-app.get('/expenses_profile', function(req, res, next) {
-	var results = {};
-		var query = client.query('SELECT * FROM EXPENSES_PROFILES', 
-				function(err, result) {
-	        if(err) {return console.error(err);}
-	         results.ExpensesProfiles = result.rows;
-	         return res.json(results);
-	    });
-});
-
-
-app.get('/createExpensesProfile', function(req, res, next) {
-	var id_expense = req.param('id_expense');
-	var id_profile = req.param('id_profile');
-	var cost = req.param('cost');
-	var success = 'sucess';
-	var results = {};
-		var query = client.query('INSERT INTO public.expenses_profile (id_expense, id_profile) VALUES('+
-				id_expense + ',' + id_profile + ',' + cost + ')', 
-				function(err, result) {
-	        if(err) {return console.error(err);}
-	         results.ExpensesProfiles = success;
 	         return res.json(results);
 	    });
 });
