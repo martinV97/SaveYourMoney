@@ -203,7 +203,7 @@ app.get('/createExpense', function(req, res, next) {
 	
 });
 
-app.get('/searchExpense', function(req, res, next) {
+app.get('/searchExpenses', function(req, res, next) {
 	var id = req.param('id_budget');
 	var results = {};
 		var query = client.query('SELECT * FROM EXPENSES WHERE ID_BUDGET = ' + id, 
