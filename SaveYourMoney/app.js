@@ -80,7 +80,7 @@ app.get('/cleanProfiles', function(req, res, next) {
 		var query = client.query('DELETE FROM public.profiles WHERE ID > 0', 
 				function(err, result) {
 	        if(err) {return console.error(err);}
-	         results.Expenses = success;
+	         results.Profiles = success;
 	         return res.json(results);
 	    });
 });
